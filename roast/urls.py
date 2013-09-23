@@ -4,5 +4,5 @@ from roast.views import *
 urlpatterns = patterns('',
     # url(r'^$', BudgetView.as_view(), name='budget_main'),
     url(r'^vendors/$', VendorList.as_view(), name='vendor_list'),
-    url(r'^vendors/add/$', VendorList.as_view(), name='vendor_add'),
+    url(r'^vendors/add/$', VendorCreate.as_view(), name='vendor_add'),
 )

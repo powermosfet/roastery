@@ -5,7 +5,7 @@ class Vendor(models.Model):
     website = models.URLField()
 
     def __unicode__(self):
-        return "{0}".format(self.name)
+        return u"{0}".format(self.name)
 
 class CoffeeBag(models.Model):
     country = models.CharField(max_length = 30)
@@ -16,14 +16,14 @@ class CoffeeBag(models.Model):
     weight = models.FloatField()
 
     def __unicode__(self):
-        return "{0} ({1}) from {2} [{3}]".format(self.country, self.variety, self.vendor, self.received_date)
+        return u"{0} ({1}) from {2} [{3}]".format(self.country, self.variety, self.vendor, self.received_date)
 
 class Batch(models.Model):
     bag = models.ForeignKey(CoffeeBag)
     weight = models.FloatField()
 
     def __unicode__(self):
-        return "{0}g from {1}".format(self.weight, self.bag)
+        return u"{0}g from {1}".format(self.weight, self.bag)
 
 class Roast(models.Model):
     date = models.DateField()
@@ -35,7 +35,7 @@ class Roast(models.Model):
     final_weight = models.FloatField()
 
     def __unicode__(self):
-        return "Roast: {0}".format(self.date)
+        return u"Roast: {0}".format(self.date)
 
 class RoastPoint(models.Model):
     time = models.TimeField()
@@ -43,7 +43,7 @@ class RoastPoint(models.Model):
     roast = models.ForeignKey(Roast)
 
     def __unicode__(self):
-        return "{0}: {1}deg K".format(self.time, self.temp)
+        return u"{0}: {1}deg K".format(self.time, self.temp)
 
 class Event(models.Model):
     description = models.CharField(max_length = 30)
