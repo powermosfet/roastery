@@ -11,11 +11,12 @@ class CoffeeBag(models.Model):
     country = models.CharField(max_length = 30)
     variety = models.CharField(max_length = 30)
     vendor = models.ForeignKey(Vendor)
-    purchase_date = models.DateField()
+    order_date = models.DateField()
+    received_date = models.DateField()
     weight = models.FloatField()
 
     def __unicode__(self):
-        return "{0} ({1}) from {2} [{3}]".format(self.country, self.variety, self.vendor, self.purchase_date)
+        return "{0} ({1}) from {2} [{3}]".format(self.country, self.variety, self.vendor, self.received_date)
 
 class Batch(models.Model):
     bag = models.ForeignKey(CoffeeBag)
