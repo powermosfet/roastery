@@ -4,6 +4,7 @@
 =======
 *.log
 *.pot
+*.swp
 *.pyc
 local_settings.py
 >>>>>>> c6263e8f64f07d97fb15c559ec0a958c1b7c93fa
