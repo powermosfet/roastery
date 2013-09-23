@@ -27,7 +27,7 @@ class Batch(models.Model):
 
 class Roast(models.Model):
     date = models.DateField()
-    batch = models.ForeignKey(Batch)
+    batch = models.OneToOneField(Batch)
     ambient_temp = models.FloatField()
     program = models.CharField(max_length = 30)
     target_temp = models.FloatField()
