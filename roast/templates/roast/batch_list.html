@@ -1,0 +1,11 @@
+<!doctype html>
+{% extends 'roast/base.html' %}
+
+{% block main %}
+    <ul>
+    {% for ob in object_list %}
+    <a href="{% url 'batch_update' ob.pk %}"><li>{{ ob }}</li></a>
+    {% endfor %}
+    <a href="{% url 'batch_add' %}"><li>Add a batch</li></a>
+    </ul>
+{% endblock %}

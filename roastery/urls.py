@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'roastery.views.home', name='home'),
+    url(r'^$', include('roast.urls')),
     url(r'^roast/', include('roast.urls')),
 
     # Uncomment the next line to enable the admin:

@@ -3,7 +3,7 @@
 {% block main %}
     <ul>
     {% for ob in object_list %}
-    <a href="{% url 'vendor_update' ob.pk %}"><li>{{ ob }}</li></a>
+    <a href="{% url 'order_detail' ob.pk %}"><li>{{ ob }}</li></a>
     {% endfor %}
 </ul>
 {% endblock %}

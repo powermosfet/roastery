@@ -1,0 +1,28 @@
+<!doctype html>
+{% extends 'roast/base.html' %}
+
+{% block main %}
+<p>
+<h2>{{ object }}</h2>
+<table>
+    <tr>
+        <td>Date:</td><td>{{ object.date }}</td>
+    </tr><tr>
+        <td>Customer:</td><td>{{ object.customer }}</td>
+    </tr><tr>
+        <td>Description:</td><td>{{ object.description }}</td>
+    </tr>
+</table>
+</p>
+<p>
+Associated batches:
+    <ul>
+    {% for ob in object.batch_set.all %}
+    <a href="{% url 'batch_update' ob.pk %}"><li>{{ ob }}</li></a>
+    {% endfor %}
+    <a href="{% url 'order_batch_add' object.pk %}"><li>Add a batch</li></a>
+    </ul>
+</p>
+<p>
+Payment: {{ object.payment }}
+{% endblock %}
