@@ -5,13 +5,16 @@ from roast.models import *
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 
+from sales.models import *
+from inventory.models import *
+
 def main_view(req):
     return HttpResponseRedirect(reverse('batch_list'))
 
 class OrderBatchForm(ModelForm):
     class Meta:
         model = Batch
-        fields = [ 'bag', 'initial_weight', 'order' ]
+        fields = [ 'bag', 'initial_weight' ]
 
 class BatchCreate(CreateView):
     model = Batch
