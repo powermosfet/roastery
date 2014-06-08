@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.urlresolvers import reverse_lazy
 
+BATCH_STATES = ((0, 'Unroasted'),
+                (1, 'Roasted'),)
+
 class Batch(models.Model):
     bag = models.ForeignKey('inventory.CoffeeBag')
     initial_weight = models.FloatField()
@@ -11,6 +14,10 @@ class Batch(models.Model):
     target_time = models.TimeField(blank=True, null=True)
     final_weight = models.FloatField(blank=True, null=True)
     order = models.ForeignKey('sales.Order')
+    state = models.IntegerField(choices = BATCH_STATES, default = 0)
+
+    class Meta:
+        verbose_name_plural = 'Batches'
 
     def __unicode__(self):
         if self.date is None:

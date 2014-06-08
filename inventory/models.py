@@ -45,7 +45,8 @@ class CoffeeBag(models.Model):
         return self.weight - sum(b.initial_weight for b in self.batch_set.all())
 
     def __unicode__(self):
-        return u"{0}/{1}g of {2} from {3}".format(self.remaining(),\
-                                                  self.weight,\
-                                                  self.variety,\
-                                                  self.vendor)
+        return u"{0} {1}/{2}g of {3} from {4}".format( u'\u2610' if self.remaining() <= 0 else u'\u2611',\
+                                                      self.remaining(),\
+                                                      self.weight,\
+                                                      self.variety,\
+                                                      self.vendor)

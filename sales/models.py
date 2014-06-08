@@ -1,6 +1,7 @@
 from django.db import models
 
 from accounting.models import Account
+from roast.models import Batch
 
 class Customer(models.Model):
     name = models.CharField(max_length=80)
@@ -25,7 +26,18 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer)
     date = models.DateField()
 
+    def delivered_quantity(self):
+        return Batch.objects.filter(order = self,\
+                                    bag__variety = self.variety,\
+                                    state = 1).count()
+
+    def done(self):
+        return self.delivered_quantity() >= self.quantity
+
+
     def __unicode__(self):
-        return u'{0} pcs {1} for {2}'.format(self.quantity, \
-                                             self.variety, \
-                                             self.customer )
+        return u'{0} {1}/{2} pcs {3} for {4}'.format(u'\u2611' if self.done() else u'\u2610', \
+                                                     self.delivered_quantity(), \
+                                                     self.quantity, \
+                                                     self.variety, \
+                                                     self.customer )
