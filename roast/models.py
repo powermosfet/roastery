@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.urlresolvers import reverse_lazy
+from roastery.models import SelflinkMixin
 
 BATCH_STATES = ((0, 'Unroasted'),
                 (1, 'Roasted'),)
 
-class Batch(models.Model):
+class Batch(models.Model, SelflinkMixin):
     bag = models.ForeignKey('inventory.CoffeeBag')
     initial_weight = models.FloatField()
     date = models.DateField(blank=True, null=True)

@@ -2,6 +2,7 @@ from django.db import models
 
 from accounting.models import Account
 from roast.models import Batch
+from roastery.models import SelflinkMixin
 
 class Customer(models.Model):
     name = models.CharField(max_length=80)
@@ -19,7 +20,7 @@ class Customer(models.Model):
     def __unicode__(self):
         return self.name
 
-class Order(models.Model):
+class Order(models.Model, SelflinkMixin):
     description = models.CharField(max_length=260, blank = True)
     variety = models.ForeignKey('inventory.Variety')
     quantity = models.IntegerField()
@@ -33,7 +34,6 @@ class Order(models.Model):
 
     def done(self):
         return self.delivered_quantity() >= self.quantity
-
 
     def __unicode__(self):
         return u'{0} {1}/{2} pcs {3} for {4}'.format(u'\u2611' if self.done() else u'\u2610', \
