@@ -4,7 +4,8 @@ from decimal import Decimal
 ACCOUNT_TYPES = (
     (0, 'Master account'),
     (1, 'Master customer credit'),
-    (2, 'Ordinary account'),
+    (2, 'Customer credit'),
+    (3, 'Customer cash'),
 )
 
 class Account(models.Model):

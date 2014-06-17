@@ -7,10 +7,16 @@ from roastery.models import SelflinkMixin
 class Customer(models.Model):
     name = models.CharField(max_length=80)
     email = models.EmailField(blank=True)
-    account = models.OneToOneField(Account, blank = True)
+    credit_account = models.OneToOneField(Account, blank = True, null = True, related_name = 'credit_for')
+    cash_account = models.OneToOneField(Account, blank = True, null = True, related_name = 'cash_from')
 
     def save(self):
-        if not hasattr(self, 'account') or self.account is None:
+        if not hasattr(self, 'credit_account') or self.credit_account is None:
+            a = Account()
+            a.name = self.name
+            a.save()
+            self.account = a
+        if not hasattr(self, 'cash_account') or self.cash_account is None:
             a = Account()
             a.name = self.name
             a.save()
