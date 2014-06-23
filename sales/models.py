@@ -1,6 +1,6 @@
 from django.db import models
 
-from accounting.models import Account
+from accounting.models import Account, Transaction
 from roast.models import Batch
 from roastery.models import SelflinkMixin
 
@@ -47,3 +47,6 @@ class Order(models.Model, SelflinkMixin):
                                                      self.quantity, \
                                                      self.variety, \
                                                      self.customer )
+
+class OrderTransaction(Transaction):
+    order = models.ForeignKey(Order)
