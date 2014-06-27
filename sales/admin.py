@@ -39,7 +39,6 @@ class OrderAdmin(admin.ModelAdmin):
     ]
     list_display = [
         '__unicode__',
-        'description',
         'variety',
         'quantity',
         'customer',
@@ -48,11 +47,6 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(models.Order, OrderAdmin)
+admin.site.register(models.CustomerPayable)
+admin.site.register(models.CustomerReceivable)
 
-class IncompleteOrderAdmin(OrderAdmin):
-    def get_queryset(self, *args, **kwargs):
-        r = super(IncompleteOrderAdmin, self).get_queryset(*args, **kwargs)
-        import pdb;pdb.set_trace()
-        return r
-
-create_modeladmin(IncompleteOrderAdmin, name='incomplete order', model=models.Order)

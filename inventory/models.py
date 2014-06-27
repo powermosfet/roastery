@@ -5,7 +5,7 @@ from accounting.models import Account
 class Vendor(models.Model):
     name = models.CharField(max_length = 30)
     website = models.URLField()
-    account = models.OneToOneField('accounting.Account', blank = True)
+    credit = models.OneToOneField('accounting.CreditAccount')
 
     def save(self):
         if not hasattr(self, 'account') or self.account is None:

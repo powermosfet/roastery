@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
             ('website', self.gf('django.db.models.fields.URLField')(max_length=200)),
-            ('account', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['accounting.Account'], unique=True, blank=True)),
+            ('credit', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['accounting.CreditAccount'], unique=True)),
         ))
         db.send_create_signal(u'inventory', ['Vendor'])
 
@@ -54,18 +54,20 @@ class Migration(SchemaMigration):
     models = {
         u'accounting.account': {
             'Meta': {'object_name': 'Account'},
-            'account_type': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
             'balance': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '80', 'blank': 'True'})
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        u'accounting.creditaccount': {
+            'Meta': {'object_name': 'CreditAccount', '_ormbases': [u'accounting.Account']},
+            u'account_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['accounting.Account']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'accounting.transaction': {
             'Meta': {'object_name': 'Transaction'},
             'amount': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
+            'credit': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'credit_account'", 'to': u"orm['accounting.Account']"}),
             'date': ('django.db.models.fields.DateField', [], {}),
+            'debit': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'debit_account'", 'to': u"orm['accounting.Account']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'receiver': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'transactions_inbound'", 'to': u"orm['accounting.Account']"}),
-            'sender': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'transactions_outbound'", 'to': u"orm['accounting.Account']"}),
             'time': ('django.db.models.fields.TimeField', [], {})
         },
         u'inventory.coffeebag': {
@@ -88,7 +90,7 @@ class Migration(SchemaMigration):
         },
         u'inventory.vendor': {
             'Meta': {'object_name': 'Vendor'},
-            'account': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['accounting.Account']", 'unique': 'True', 'blank': 'True'}),
+            'credit': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['accounting.CreditAccount']", 'unique': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
             'website': ('django.db.models.fields.URLField', [], {'max_length': '200'})

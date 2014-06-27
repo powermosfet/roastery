@@ -1,52 +1,53 @@
 from django.db import models
 
-from accounting.models import Account, Transaction
+from accounting.models import Account, CreditAccount, DebitAccount, Transaction
 from roast.models import Batch
 from roastery.models import SelflinkMixin
 
 class Customer(models.Model):
     name = models.CharField(max_length=80)
     email = models.EmailField(blank=True)
-    credit_account = models.OneToOneField(Account, blank = True, null = True, related_name = 'credit_for')
-    cash_account = models.OneToOneField(Account, blank = True, null = True, related_name = 'cash_from')
 
     def save(self):
-        if not hasattr(self, 'credit_account') or self.credit_account is None:
-            a = Account()
-            a.name = self.name
-            a.save()
-            self.account = a
-        if not hasattr(self, 'cash_account') or self.cash_account is None:
-            a = Account()
-            a.name = self.name
-            a.save()
-            self.account = a
         super(Customer, self).save()
+        if len(CustomerPayable.objects.filter(customer = self)) == 0:
+            a = CustomerPayable()
+            a.customer = self
+            a.save()
+        if len(CustomerReceivable.objects.filter(customer = self)) == 0:
+            a = CustomerReceivable()
+            a.customer = self
+            a.save()
 
     def __unicode__(self):
         return self.name
 
+class CustomerPayable(CreditAccount):
+    customer = models.ForeignKey(Customer)
+
+class CustomerReceivable(DebitAccount):
+    customer = models.ForeignKey(Customer)
+
 class Order(models.Model, SelflinkMixin):
-    description = models.CharField(max_length=260, blank = True)
     variety = models.ForeignKey('inventory.Variety')
     quantity = models.IntegerField()
     customer = models.ForeignKey(Customer)
     date = models.DateField()
+    done = models.BooleanField(default = False)
 
     def delivered_quantity(self):
         return Batch.objects.filter(order = self,\
-                                    bag__variety = self.variety,\
-                                    state = 1).count()
+                                    state = Batch.DONE).count()
 
-    def done(self):
-        return self.delivered_quantity() >= self.quantity
+    def determine_done(self):
+        self.done = self.delivered_quantity() >= self.quantity
 
     def __unicode__(self):
-        return u'{0} {1}/{2} pcs {3} for {4}'.format(u'\u2611' if self.done() else u'\u2610', \
-                                                     self.delivered_quantity(), \
-                                                     self.quantity, \
-                                                     self.variety, \
-                                                     self.customer )
+        return u'{} {}/{} pcs {} for {}'.format(u'\u2611' if self.done else u'\u2610', \
+                                                self.delivered_quantity(), \
+                                                self.quantity, \
+                                                self.variety, \
+                                                self.customer )
 
 class OrderTransaction(Transaction):
     order = models.ForeignKey(Order)
