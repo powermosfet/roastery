@@ -1,3 +1,4 @@
+from model_utils.managers import InheritanceManager
 from django.db import models
 from decimal import Decimal
 
@@ -8,7 +9,9 @@ ACCOUNT_TYPES = (
 )
 
 class Account(models.Model):
-    balance = models.DecimalField(max_digits=8, decimal_places=2, default = 0)
+    balance = models.DecimalField(max_digits=8, decimal_places=2, default = 0.0)
+
+    objects = InheritanceManager()
 
     def recalculate_balance(self):
         self.balance = 0
@@ -21,7 +24,7 @@ class Account(models.Model):
         drcr = '-'
         if hasattr(self, 'debitaccount')  and self.debitaccount is not None: drcr = 'Dr'
         if hasattr(self, 'creditaccount') and self.creditaccount is not None: drcr = 'Cr'
-        return u'{:0>10} [{}]: {:.2}'.format(self.pk, drcr, self.balance)
+        return u'{:0>10} [{}]: {:.2}'.format(self.pk, drcr, float(self.balance))
 
 class DebitAccount(Account):
     def debit(self, amount):

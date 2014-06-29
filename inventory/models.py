@@ -1,22 +1,27 @@
 from django.db import models
+from annoying.fields import AutoOneToOneField
+from roastery.models import SelflinkMixin
 
-from accounting.models import Account
+from accounting.models import CreditAccount, DebitAccount
 
 class Vendor(models.Model):
     name = models.CharField(max_length = 30)
     website = models.URLField()
-    credit = models.OneToOneField('accounting.CreditAccount')
-
-    def save(self):
-        if not hasattr(self, 'account') or self.account is None:
-            a = Account()
-            a.name = self.name
-            a.save()
-            self.account = a
-        super(Vendor, self).save()
 
     def __unicode__(self):
         return u"{0}".format(self.name)
+
+class VendorPayable(CreditAccount, SelflinkMixin):
+    vendor = AutoOneToOneField(Vendor)
+
+    def __unicode__(self):
+        return u'{} Payable {}'.format(self.vendor, super(VendorPayable, self).__unicode__())
+
+class VendorReceivable(DebitAccount, SelflinkMixin):
+    vendor = AutoOneToOneField(Vendor)
+
+    def __unicode__(self):
+        return u'{} Receivable {}'.format(self.vendor, super(VendorReceivable, self).__unicode__())
 
 class Variety(models.Model):
     country = models.CharField(max_length = 30)
@@ -32,6 +37,10 @@ class Variety(models.Model):
             return u"{0} {1}".format(self.country, self.area)
         else:
             return u"{0} {1} ({2})".format(self.country, self.area, self.description)
+
+class InventoryAccount(DebitAccount):
+    def __unicode__(self):
+        return u'inventory [{}]: {:.2}'.format(self.pk, self.balance)
 
 class CoffeeBag(models.Model):
     variety = models.ForeignKey(Variety)

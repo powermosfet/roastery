@@ -3,5 +3,7 @@ from django.views.generic import ListView
 from sales.models import Order
 
 class OutstandingOrders(ListView):
+    template = 'sales/order_list.html'
+
     def get_queryset(self, *args, **kwargs):
-        return [ x for x in Order.objects.all() ]
+        return Order.objects.all()
