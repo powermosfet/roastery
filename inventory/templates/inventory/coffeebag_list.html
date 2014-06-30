@@ -1,0 +1,53 @@
+{% extends 'roastery/base.html' %}
+
+{% block body %}
+<table class="table table-striped">
+    <theader>
+      <tr>
+        <th>Variety</th>
+        <th>Vendor</th>
+        <th>Date</th>
+        <th>Weight</th>
+        <th>Remaining</th>
+        <th>Price</th>
+      </tr>
+    </theader>
+    <tbody>
+    {% if object_list %}
+        {% for ob in object_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'bag_edit' ob.pk %}"> {{ ob.variety }} </a>
+                </td>
+                <td>
+                    {{ ob.vendor }}
+                </td>
+                <td>
+                    {{ ob.received_date }}
+                </td>
+                <td>
+                    {{ ob.weight }}
+                </td>
+                <td>
+                    {{ ob.remaining }}
+                </td>
+                <td>
+                    {{ ob.price }}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td>
+                    <p>No bags have been created yet</p>
+                </td>
+            </tr>
+    {% endif %}
+        <tr>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'bag_add' %}">Add a bag</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% load tags %}
+
+<li {% if item.subitems %}class="dropdown"{% endif %}>
+    <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.name }}</a>
+    {% if item.subitems %}
+    <ul class="dropdown-menu" role="menu">
+        {% for si in item.subitems %}
+        {% menu_item si %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</li>

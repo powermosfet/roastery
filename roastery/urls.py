@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', include('roast.urls')),
     url(r'^roast/', include('roast.urls')),
-    url(r'^outstanding_orders/$', OutstandingOrders.as_view() ),
+    url(r'^inventory/', include('inventory.urls')),
+    url(r'^sales/', include('sales.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -1,0 +1,9 @@
+{% extends 'roastery/base.html' %}
+{% load bootstrap %}
+
+{% block body %}
+<form role="form" action="{% url 'bag_add' %}" method="post">{% csrf_token %}  
+    {{ form|bootstrap }}
+    <input class="btn btn-default" type="submit" value="Create" />  
+</form>
+{% endblock %}

@@ -8,8 +8,16 @@ from django.http import HttpResponseRedirect
 from sales.models import *
 from inventory.models import *
 
+def navbar_items():
+    return [
+            ('Roast', reverse(main_view)),
+            ]
+
 def main_view(req):
     return HttpResponseRedirect(reverse('batch_list'))
+
+class BatchList(ListView):
+    model = Batch
 
 class OrderBatchForm(ModelForm):
     class Meta:
