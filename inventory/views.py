@@ -48,6 +48,11 @@ class BagTransactionAdd(FormMixin, CreateView):
     model = BagTransaction
     template_name = 'form.html'
 
+    def get_form(self, *args, **kwargs):
+        f = super(BagTransactionAdd, self).get_form(*args, **kwargs)
+        import pdb;pdb.set_trace()
+        return f
+
     def get_initial(self, *args, **kwargs):
         i = super(BagTransactionAdd, self).get_initial(*args, **kwargs)
         if 'bag' in self.request.GET.keys():
