@@ -1,6 +1,6 @@
-{% extends 'roastery/base.html' %}
+{% extends 'base.html' %}
 
-{% block body %}
+{% block content %}
 <table class="table table-striped">
     <theader>
       <tr>
@@ -17,13 +17,13 @@
         {% for ob in object_list %}
             <tr>
                 <td>
-                    <a href="{% url 'bag_edit' ob.pk %}"> {{ ob.variety }} </a>
+                    <a href="{% url 'coffeebag_edit' ob.pk %}"> {{ ob.variety }} </a>
                 </td>
                 <td>
                     {{ ob.vendor }}
                 </td>
                 <td>
-                    {{ ob.received_date }}
+                    {{ ob.order_date }}
                 </td>
                 <td>
                     {{ ob.weight }}
@@ -45,7 +45,17 @@
     {% endif %}
         <tr>
             <td>
-                <a class="btn btn-primary" role="button" href="{% url 'bag_add' %}">Add a bag</a>
+                <a class="btn btn-primary" role="button" href="{% url 'coffeebag_add' %}">Add a bag</a>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
             </td>
         </tr>
     </tbody>

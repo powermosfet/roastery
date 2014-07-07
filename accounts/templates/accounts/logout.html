@@ -1,0 +1,15 @@
+{% extends "roastery/base_raw.html" %}
+
+{% block body %}
+
+<div class="jumbotron">
+
+    <p>
+    You have been logged out.
+    </p>
+
+    <a href="{% url 'login' %}" class="btn btn-lg btn-primary">Log in</a>
+
+</div>
+
+{% endblock %}

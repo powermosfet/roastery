@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <theader>
+      <tr>
+          <th>Country    </th>
+          <th>Area       </th>
+          <th>Crop year  </th>
+          <th>Description</th>
+      </tr>
+    </theader>
+    <tbody>
+    {% if object_list %}
+        {% for ob in object_list %}
+            <tr>
+                <td> <a href="{% url 'variety_edit' ob.pk %}"> {{ ob.country     }} </a> </td>
+                <td>                                           {{ ob.area        }} </td>
+                <td>                                           {{ ob.crop_year   }} </td>
+                <td>                                           {{ ob.description }} </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td>
+                    <p>No varieties have been created yet</p>
+                </td>
+            </tr>
+    {% endif %}
+        <tr>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'variety_add' %}">Add a variety</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

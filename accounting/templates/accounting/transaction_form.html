@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block content %}
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Properties:</h3>
+        </div>
+        <div class="panel-body">
+            {% if object %}
+            <form role="form" action="{% url 'bag_edit' object.pk %}" method="post">{% csrf_token %}  
+            {% else %}
+            <form role="form" action="{% url 'bag_add' %}" method="post">{% csrf_token %}  
+            {% endif %}
+
+                {{ form|bootstrap }}
+
+            {% if object %}
+                <input class="btn btn-primary" type="submit" value="Save" />  
+                <a href="{% url 'bag_delete' object.pk %}" class="btn btn-danger">Delete</a>
+            {% else %}
+                <input class="btn btn-primary" type="submit" value="Create" />  
+            {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Related transactions:</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>   
+                        <th>Credit</th>   
+                        <th>Debit</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                {% for t in object.bagtransaction_set.all %}
+                    <tr>
+                        <td><a href="#" >{{ t.timestamp|date:"Y-m-d" }}</a></td>
+                        <td>{{ t.credit }}</td>
+                        <td>{{ t.debit }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-default" href="{% url 'bagtransaction_add' %}" >Add a transaction</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

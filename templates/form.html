@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Properties:</h3>
+            {{ foo }}
+        </div>
+        <div class="panel-body">
+            {% if object %}
+            <form role="form" action="{% url edit_view object.pk %}" method="post">{% csrf_token %}  
+            {% else %}
+            <form role="form" action="{% url add_view %}" method="post">{% csrf_token %}  
+            {% endif %}
+
+                {{ form|bootstrap }}
+
+            {% if object %}
+                <input class="btn btn-primary" type="submit" value="Save" />  
+                <a href="{% url delete_view object.pk %}" class="btn btn-danger">Delete</a>
+            {% else %}
+                <input class="btn btn-primary" type="submit" value="Create" />  
+            {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+    {% block right %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'moment/js/moment.min.js' %}"></script>
+    <script src="{% static 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script>$(function () {
+                $("input[id*='date']").attr('data-date-format', 'YYYY-MM-DD');
+                $("input[id*='date']").datetimepicker({
+                    pickTime: false,
+                });
+                $("input[id*='timestamp']").attr('data-date-format', 'YYYY-MM-DD hh:mm:ss');
+                $("input[id*='timestamp']").datetimepicker();
+            });
+    </script>
+{% endblock %}

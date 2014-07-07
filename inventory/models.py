@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime as dt
 from annoying.fields import AutoOneToOneField
 from roastery.models import SelflinkMixin
 
@@ -46,20 +47,8 @@ class CoffeeBag(models.Model):
     variety = models.ForeignKey(Variety)
     vendor = models.ForeignKey(Vendor)
     order_date = models.DateField()
-    received_date = models.DateField()
     weight = models.FloatField()
     price = models.DecimalField(max_digits = 6, decimal_places = 2)
-
-    def save(self):
-        super(CoffeeBag, self).save()
-        if self.price > 0.0 and BagTransaction.objects.filter(bag = self).count == 0:
-            t = BagTransaction()
-            t.bag = self
-            t.amount = self.price
-            t.debit = InventoryAccount.objects.first()
-            t.credit = self.vendor.vendoraccount
-            t.save()
-
 
     def remaining(self):
         return self.weight - sum(b.initial_weight for b in self.batch_set.all())
@@ -73,3 +62,4 @@ class CoffeeBag(models.Model):
 
 class BagTransaction(Transaction):
     bag = models.ForeignKey(CoffeeBag)
+

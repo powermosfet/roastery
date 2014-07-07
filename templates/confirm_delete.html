@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+  <h3>Do you really want to delete {{ object }}?</h3>
+  <form class="form" action="{% url delete_view object.pk %}" method="POST">{% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="YES, delete" />
+    <a href="{% url edit_view object.pk %}" class="btn btn-danger">No, cancel</a>
+  </form>
+</div>
+{% endblock %}

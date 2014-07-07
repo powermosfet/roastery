@@ -2,12 +2,6 @@ from model_utils.managers import InheritanceManager
 from django.db import models
 from decimal import Decimal
 
-ACCOUNT_TYPES = (
-    (0, 'Assets'),
-    (1, 'Liabilities'),
-    (2, 'Equity'),
-)
-
 class Account(models.Model):
     balance = models.DecimalField(max_digits=8, decimal_places=2, default = 0.0)
 
@@ -24,7 +18,7 @@ class Account(models.Model):
         drcr = '-'
         if hasattr(self, 'debitaccount')  and self.debitaccount is not None: drcr = 'Dr'
         if hasattr(self, 'creditaccount') and self.creditaccount is not None: drcr = 'Cr'
-        return u'{:0>10} [{}]: {:.2}'.format(self.pk, drcr, float(self.balance))
+        return u'{:0>4} [{}]: {:.2}'.format(self.pk, drcr, float(self.balance))
 
 class DebitAccount(Account):
     def debit(self, amount):
@@ -41,8 +35,7 @@ class CreditAccount(Account):
         self.balance += amount
 
 class Transaction(models.Model):
-    date = models.DateField()
-    time = models.TimeField()
+    timestamp = models.DateTimeField()
     debit = models.ForeignKey(Account, related_name = 'debit_account')
     credit = models.ForeignKey(Account, related_name = 'credit_account')
     amount = models.DecimalField(max_digits=8, decimal_places=2)
@@ -57,4 +50,8 @@ class Transaction(models.Model):
         super(Transaction, self).save()
 
     def __unicode__(self):
-        return u"{} {:.2} Dr {:0>10} Cr {:0>10}".format(self.date, self.amount, self.debit.pk, self.credit.pk)
+        return u"{:%Y-%m-%d} {} Dr {:0>10} Cr {:0>10}".format(self.timestamp,
+                                                              self.amount,
+                                                              Account.objects.get_subclass(pk = self.debit.pk),
+                                                              Account.objects.get_subclass(pk = self.credit.pk),
+                                                              )

@@ -1,8 +1,5 @@
 import os
 
-
-# Django settings for roastery project.
-
 SETTINGS_DIR = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
@@ -89,7 +86,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    STATIC_PATH
+    STATIC_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -132,6 +129,8 @@ TEMPLATE_DIRS = (
     TEMPLATE_PATH
 )
 
+LOGIN_REDIRECT_URL = '/'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,13 +143,14 @@ INSTALLED_APPS = (
     'sales',
     'accounting',
     'tags',
+    'accounts',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'annoying',
-    'south',
     'bootstrapform',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
