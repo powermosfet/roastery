@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from utilities.views import FormMixin
 
 from inventory.models import *
+from accounting.models import Account
 
 def navbar_items():
     return [ 
@@ -47,10 +48,12 @@ def coffeebag_nonempty(r):
 class BagTransactionAdd(FormMixin, CreateView):
     model = BagTransaction
     template_name = 'form.html'
+    success_url = reverse_lazy('coffeebag_nonempty')
 
     def get_form(self, *args, **kwargs):
         f = super(BagTransactionAdd, self).get_form(*args, **kwargs)
-        import pdb;pdb.set_trace()
+        f.fields['debit'].queryset = Account.objects.select_subclasses()
+        f.fields['credit'].queryset = Account.objects.select_subclasses()
         return f
 
     def get_initial(self, *args, **kwargs):
@@ -62,6 +65,13 @@ class BagTransactionAdd(FormMixin, CreateView):
 class BagTransactionEdit(FormMixin, UpdateView):
     model = BagTransaction
     template_name = 'form.html'
+    success_url = reverse_lazy('coffeebag_nonempty')
+
+    def get_form(self, *args, **kwargs):
+        f = super(BagTransactionEdit, self).get_form(*args, **kwargs)
+        f.fields['debit'].queryset = Account.objects.select_subclasses()
+        f.fields['credit'].queryset = Account.objects.select_subclasses()
+        return f
 
 class BagTransactionDelete(FormMixin, DeleteView):
     model = BagTransaction

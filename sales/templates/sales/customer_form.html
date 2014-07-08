@@ -1,0 +1,41 @@
+{% extends 'form.html' %}
+{% load bootstrap %}
+
+{% block right %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Related orders:</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Variety</th>
+                        <th>Quantity</th>
+                        <th>Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ob in orders %}
+                    <tr>
+                        <td> <a href="{% url 'order_edit' ob.pk %}"> {{ ob.date|date:'Y-M-d' }} </a> </td>
+                        <td>                                         {{ ob.customer }} </td>
+                        <td>                                         {{ ob.variety }} </td>
+                        <td>                                         {{ ob.quantity }} </td>
+                        <td>                                         {% if ob.done %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td> <a class="btn btn-default" href="{% url 'order_add' %}?customer={{ object.pk }}" >Add an order</a> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endblock %}

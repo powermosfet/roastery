@@ -25,8 +25,14 @@ class Customer(models.Model):
 class CustomerPayable(CreditAccount):
     customer = models.ForeignKey(Customer)
 
+    def __unicode__(self):
+        return "{} payable [{}]".format(self.customer, self.pk)
+
 class CustomerReceivable(DebitAccount):
     customer = models.ForeignKey(Customer)
+
+    def __unicode__(self):
+        return "{} receivable [{}]".format(self.customer, self.pk)
 
 class Order(models.Model, SelflinkMixin):
     variety = models.ForeignKey('inventory.Variety')
@@ -36,8 +42,7 @@ class Order(models.Model, SelflinkMixin):
     done = models.BooleanField(default = False)
 
     def delivered_quantity(self):
-        return Batch.objects.filter(order = self,\
-                                    state = Batch.DONE).count()
+        return 0
 
     def determine_done(self):
         self.done = self.delivered_quantity() >= self.quantity

@@ -7,10 +7,11 @@
             <h3 class="panel-title">Related transactions:</h3>
         </div>
         <div class="panel-body">
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Date</th>   
+                        <th>Amount</th>   
                         <th>Credit</th>   
                         <th>Debit</th>   
                     </tr>
@@ -19,6 +20,7 @@
                 {% for t in ts %}
                     <tr>
                         <td><a href="{% url 'bagtransaction_edit' t.pk %}" >{{ t.timestamp|date:"Y-m-d" }}</a></td>
+                        <td>{{ t.amount }}</td>
                         <td>{{ t.credit }}</td>
                         <td>{{ t.debit }}</td>
                     </tr>

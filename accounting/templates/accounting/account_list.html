@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <theader>
+      <tr>
+          <th>Account</th>
+          <th>Number</th>
+          <th>Description</th>
+      </tr>
+    </theader>
+    <tbody>
+    {% if object_list %}
+        {% for acc in object_list %}
+            <tr>
+                <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                <td>                                           {{ acc.pk }} </td>
+                <td>                                           {{ acc.description }} </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td>
+                    <p>No accounts have been created yet</p>
+                </td>
+            </tr>
+    {% endif %}
+        <tr>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'debitaccount_add' %}">Add a debit account</a>
+            </td>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'creditaccount_add' %}">Add a credit account</a>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

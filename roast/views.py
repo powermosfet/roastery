@@ -1,44 +1,43 @@
-from django.views.generic import *
-from django.db.models import *
-from django.forms import *
-from roast.models import *
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
+from django.views.generic import ListView, DeleteView, UpdateView, CreateView
+from django.core.urlresolvers import reverse, reverse_lazy 
+from utilities.views import FormMixin
 
-from sales.models import *
-from inventory.models import *
+from roast.models import *
 
 def navbar_items():
     return [
-            ('Roast', reverse(main_view)),
-            ]
-
-def main_view(req):
-    return HttpResponseRedirect(reverse('batch_list'))
+            ( 'Roast', [
+                        ('Batches', reverse('batch_all')),
+                        ] ),
+                ]
 
 class BatchList(ListView):
     model = Batch
 
-class OrderBatchForm(ModelForm):
-    class Meta:
-        model = Batch
-        fields = [ 'bag', 'initial_weight' ]
+class BatchOutstanding(BatchList):
+    def get_queryset(self, *args, **kwargs):
+        return Batch.objects.filter(done=False)
 
-class BatchCreate(CreateView):
+
+class BatchDelete(FormMixin, DeleteView):
+    model = Batch  
+    template_name = 'confirm_delete.html'
+    success_url = reverse_lazy('batch_all')
+
+class BatchAdd(FormMixin, CreateView):
     model = Batch
-    template_name = 'roast/detail_form.html'
-    success_url = reverse_lazy('batch_list')
+    template_name = 'form.html'
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse('batch_all')
 
-    def get_form(self, form_class):
-        form = super(BatchCreate,self).get_form(form_class) #instantiate using parent
-        form.fields['bag'].queryset = CoffeeBag.objects.annotate(used=Sum('batch__initial_weight')).filter(Q(used__lt=F('weight')) | Q(used__isnull=True))
-        return form
+    def get_initial(self, *args, **kwargs):
+        i = super(BatchAdd, self).get_initial(*args, **kwargs)
+        if 'customer' in self.request.GET.keys():
+            i['customer'] = self.request.GET['customer']
+        return i
 
-class OrderBatchCreate(BatchCreate):
-    form_class = OrderBatchForm
-
-    def get_initial(self):
-        return { 'order': self.kwargs['order_pk'] }
-
-    def get_success_url(self):
-        return reverse_lazy('order_detail', kwargs = { 'pk': self.kwargs['order_pk'] })
+class BatchEdit(FormMixin, UpdateView):
+    model = Batch
+    template_name = 'sales/batch_form.html'
+    success_url = reverse_lazy('batch_all')

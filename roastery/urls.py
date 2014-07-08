@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', include('roast.urls')),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^accounting/', include('accounting.urls')),
     url(r'^roast/', include('roast.urls')),
     url(r'^inventory/', include('inventory.urls')),
     url(r'^sales/', include('sales.urls')),

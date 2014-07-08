@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <theader>
+      <tr>
+          <th>Name   </th>
+          <th>Email</th>
+      </tr>
+    </theader>
+    <tbody>
+    {% if object_list %}
+        {% for ob in object_list %}
+            <tr>
+                <td> <a href="{% url 'customer_edit' ob.pk %}"> {{ ob.name    }} </a> </td>
+                <td>                                           {{ ob.email }} </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td>
+                    <p>No customers have been created yet</p>
+                </td>
+            </tr>
+    {% endif %}
+        <tr>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'customer_add' %}">Add a customer</a>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

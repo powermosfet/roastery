@@ -1,11 +1,67 @@
-<!doctype html>
-{% extends 'roastery/base.html' %}
+{% extends 'base.html' %}
 
-{% block main %}
-    <ul>
-    {% for ob in object_list %}
-    <a href="{% url 'batch_update' ob.pk %}"><li>{{ ob }}</li></a>
-    {% endfor %}
-    <a href="{% url 'batch_add' %}"><li>Add a batch</li></a>
-    </ul>
+{% block content %}
+<table class="table table-striped">
+    <theader>
+      <tr>
+          <th>Bag</th>
+          <th>Initial weight</th>
+          <th>Date</th>
+          <th>Ambient temp</th>
+          <th>Program</th>
+          <th>Target temp</th>
+          <th>Target time</th>
+          <th>Final weight</th>
+          <th>Batch</th>
+          <th>State</th>
+      </tr>
+    </theader>
+    <tbody>
+    {% if object_list %}
+        {% for ob in object_list %}
+            <tr>
+                <th><a href="{% url 'batch_edit' ob.pk %}">{{ ob.bag }}</a></th>
+                <th>{{ ob.initial_weight }}</th>
+                <th>{{ ob.date|date:'Y-M-d' }}</th>
+                <th>{{ ob.ambient_temp }}</th>
+                <th>{{ ob.program }}</th>
+                <th>{{ ob.target_temp }}</th>
+                <th>{{ ob.target_time }}</th>
+                <th>{{ ob.final_weight }}</th>
+                <th>{{ ob.batch }}</th>
+                <th>{{ ob.state }}</th>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td>
+                    <p>No batches have been created yet</p>
+                </td>
+            </tr>
+    {% endif %}
+        <tr>
+            <td>
+                <a class="btn btn-primary" role="button" href="{% url 'batch_add' %}">Add a batch</a>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}

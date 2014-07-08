@@ -1,0 +1,68 @@
+{% extends 'form.html' %}
+{% load bootstrap %}
+
+{% block right %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Related transactions:</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>   
+                        <th>Amount</th>   
+                        <th>Credit</th>   
+                        <th>Debit</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                {% for t in ts %}
+                    <tr>
+                        <td><a href="{% url 'ordertransaction_edit' t.pk %}" >{{ t.timestamp|date:"Y-m-d" }}</a></td>
+                        <td>{{ t.amount }}</td>
+                        <td>{{ t.credit }}</td>
+                        <td>{{ t.debit }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td> <a class="btn btn-default" href="{% url 'ordertransaction_add' %}?order={{ object.pk }}" >Add a transaction</a> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Related batches:</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>   
+                        <th>Weight</th>   
+                        <th>State</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                {% for b in bs %}
+                    <tr>
+                        <td><a href="{% url 'batch_edit' b.pk %}" >{{ b.date|date:"Y-m-d" }}</a></td>
+                        <td>{{ b.initial_weight }}</td>
+                        <td>{{ b.state }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td> <a class="btn btn-default" href="{% url 'batch_add' %}?order={{ object.pk }}" >Add a batch</a> </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endblock %}

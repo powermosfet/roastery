@@ -4,6 +4,7 @@ from decimal import Decimal
 
 class Account(models.Model):
     balance = models.DecimalField(max_digits=8, decimal_places=2, default = 0.0)
+    description = models.CharField(max_length=80, blank=True, null=True)
 
     objects = InheritanceManager()
 
@@ -15,10 +16,13 @@ class Account(models.Model):
             self.credit(t.amount)
 
     def __unicode__(self):
-        drcr = '-'
-        if hasattr(self, 'debitaccount')  and self.debitaccount is not None: drcr = 'Dr'
-        if hasattr(self, 'creditaccount') and self.creditaccount is not None: drcr = 'Cr'
-        return u'{:0>4} [{}]: {:.2}'.format(self.pk, drcr, float(self.balance))
+        if self.description is None:
+            drcr = '-'
+            if hasattr(self, 'debitaccount')  and self.debitaccount is not None: drcr = 'Dr'
+            if hasattr(self, 'creditaccount') and self.creditaccount is not None: drcr = 'Cr'
+            return u'{:0>4} [{}]: {}'.format(self.pk, drcr, self.balance)
+        else:
+            return "{} [{}]".format(self.description, self.pk)
 
 class DebitAccount(Account):
     def debit(self, amount):
@@ -40,6 +44,13 @@ class Transaction(models.Model):
     credit = models.ForeignKey(Account, related_name = 'credit_account')
     amount = models.DecimalField(max_digits=8, decimal_places=2)
 
+    def __init__(self, *args, **kwargs):
+        super(Transaction, self).__init__(*args, **kwargs)
+        if hasattr(self, 'debit') and self.debit is not None:
+            self.debit = Account.objects.get_subclass(pk=self.debit.pk)
+        if hasattr(self, 'credit') and self.credit is not None:
+            self.credit = Account.objects.get_subclass(pk=self.credit.pk)
+
     def save(self):
         if self.pk is None:
             self.debit.debit(self.amount)
@@ -47,11 +58,13 @@ class Transaction(models.Model):
         else:
             self.debit.recalculate_balance()
             self.credit.recalculate_balance()
+        self.credit.save()
+        self.debit.save()
         super(Transaction, self).save()
 
     def __unicode__(self):
-        return u"{:%Y-%m-%d} {} Dr {:0>10} Cr {:0>10}".format(self.timestamp,
+        return u"{:%Y-%m-%d} {} Dr {} Cr {}".format(self.timestamp,
                                                               self.amount,
-                                                              Account.objects.get_subclass(pk = self.debit.pk),
-                                                              Account.objects.get_subclass(pk = self.credit.pk),
+                                                              self.debit,
+                                                              self.credit,
                                                               )

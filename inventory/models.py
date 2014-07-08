@@ -41,7 +41,7 @@ class Variety(models.Model):
 
 class InventoryAccount(DebitAccount):
     def __unicode__(self):
-        return u'inventory [{}]: {:.2}'.format(self.pk, self.balance)
+        return u'inventory [{}]: {}'.format(self.pk, self.balance)
 
 class CoffeeBag(models.Model):
     variety = models.ForeignKey(Variety)
