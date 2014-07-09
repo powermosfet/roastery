@@ -20,11 +20,12 @@ class Account(models.Model):
             drcr = '-'
             if hasattr(self, 'debitaccount')  and self.debitaccount is not None: drcr = 'Dr'
             if hasattr(self, 'creditaccount') and self.creditaccount is not None: drcr = 'Cr'
-            return u'{:0>4} [{}]: {}'.format(self.pk, drcr, self.balance)
+            return u'{} [{}]'.format(drcr, self.pk)
         else:
-            return "{} [{}]".format(self.description, self.pk)
+            return u'{} [{}]'.format(self.description, self.pk)
 
 class DebitAccount(Account):
+    objects = InheritanceManager()
     def debit(self, amount):
         self.balance += amount
 
@@ -32,11 +33,19 @@ class DebitAccount(Account):
         self.balance -= amount
 
 class CreditAccount(Account):
+    objects = InheritanceManager()
     def debit(self, amount):
         self.balance -= amount
 
     def credit(self, amount):
         self.balance += amount
+
+class ExpenseAccount(DebitAccount):
+    objects = InheritanceManager()
+
+    def save(self):
+        self.description = 'Expenses'
+        super(ExpenseAccount, self).save()
 
 class Transaction(models.Model):
     timestamp = models.DateTimeField()

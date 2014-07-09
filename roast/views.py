@@ -22,22 +22,26 @@ class BatchOutstanding(BatchList):
 class BatchDelete(FormMixin, DeleteView):
     model = Batch  
     template_name = 'confirm_delete.html'
-    success_url = reverse_lazy('batch_all')
+ 
+    def get_success_url(self):
+        return reverse('order_edit', kwargs={'pk': self.object.order.pk})
 
 class BatchAdd(FormMixin, CreateView):
     model = Batch
     template_name = 'form.html'
     
-    def get_success_url(self, *args, **kwargs):
-        return reverse('batch_all')
+    def get_success_url(self):
+        return reverse('order_edit', kwargs={'pk': self.object.order.pk})
 
     def get_initial(self, *args, **kwargs):
         i = super(BatchAdd, self).get_initial(*args, **kwargs)
-        if 'customer' in self.request.GET.keys():
-            i['customer'] = self.request.GET['customer']
+        if 'order' in self.request.GET.keys():
+            i['order'] = self.request.GET['order']
         return i
 
 class BatchEdit(FormMixin, UpdateView):
     model = Batch
-    template_name = 'sales/batch_form.html'
-    success_url = reverse_lazy('batch_all')
+    template_name = 'form.html'
+    
+    def get_success_url(self):
+        return reverse('order_edit', kwargs={'pk': self.object.order.pk})

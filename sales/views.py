@@ -29,10 +29,9 @@ class OrderDelete(FormMixin, DeleteView):
 class OrderAdd(FormMixin, CreateView):
     model = Order
     template_name = 'form.html'
-    
+
     def get_success_url(self, *args, **kwargs):
-        import pdb;pdb.set_trace()
-        return reverse('order_edit', self.object.pk)
+        return reverse('customer_edit', kwargs={ 'pk': self.object.customer.pk } )
 
     def get_initial(self, *args, **kwargs):
         i = super(OrderAdd, self).get_initial(*args, **kwargs)
@@ -78,7 +77,9 @@ class CustomerEdit(FormMixin, UpdateView):
 class OrderTransactionAdd(FormMixin, CreateView):
     model = OrderTransaction
     template_name = 'form.html'
-    success_url = reverse_lazy('coffeebag_nonempty')
+    
+    def get_success_url(self):
+        return reverse('ordertransaction_edit', self.object.pk)
 
     def get_form(self, *args, **kwargs):
         f = super(OrderTransactionAdd, self).get_form(*args, **kwargs)
@@ -105,5 +106,7 @@ class OrderTransactionEdit(FormMixin, UpdateView):
 
 class OrderTransactionDelete(FormMixin, DeleteView):
     model = OrderTransaction
-    template_name = 'confirm_delete'
-    success_url = reverse_lazy('coffeebag_nonempty')
+    template_name = 'confirm_delete.html'
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('order_edit', kwargs={'pk': self.get_object().order.pk})

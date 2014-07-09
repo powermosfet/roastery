@@ -4,8 +4,8 @@
 <div class="jumbotron">
   <h3>Do you really want to delete {{ object }}?</h3>
   <form class="form" action="{% url delete_view object.pk %}" method="POST">{% csrf_token %}
-    <input type="submit" class="btn btn-primary" value="YES, delete" />
-    <a href="{% url edit_view object.pk %}" class="btn btn-danger">No, cancel</a>
+    <a href="{% url edit_view object.pk %}" class="btn btn-primary">No, cancel</a>
+    <input type="submit" class="btn btn-danger" value="YES, delete" />
   </form>
 </div>
 {% endblock %}

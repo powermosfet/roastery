@@ -14,12 +14,7 @@
             {{ foo }}
         </div>
         <div class="panel-body">
-            {% if object %}
-            <form role="form" action="{% url edit_view object.pk %}" method="post">{% csrf_token %}  
-            {% else %}
-            <form role="form" action="{% url add_view %}" method="post">{% csrf_token %}  
-            {% endif %}
-
+            <form role="form" action="." method="post">{% csrf_token %}  
                 {{ form|bootstrap }}
 
             {% if object %}

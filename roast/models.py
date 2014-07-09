@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse_lazy
 from roastery.models import SelflinkMixin
+from datetime import datetime as dt
 
 BATCH_STATES = ((0, 'Unroasted'),
                 (1, 'Roasted'),)

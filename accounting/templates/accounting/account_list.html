@@ -1,40 +1,133 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<table class="table table-striped">
-    <theader>
-      <tr>
-          <th>Account</th>
-          <th>Number</th>
-          <th>Description</th>
-      </tr>
-    </theader>
-    <tbody>
-    {% if object_list %}
-        {% for acc in object_list %}
-            <tr>
-                <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
-                <td>                                           {{ acc.pk }} </td>
-                <td>                                           {{ acc.description }} </td>
-            </tr>
-        {% endfor %}
-    {% else %}
-            <tr>
-                <td>
-                    <p>No accounts have been created yet</p>
-                </td>
-            </tr>
-    {% endif %}
-        <tr>
-            <td>
-                <a class="btn btn-primary" role="button" href="{% url 'debitaccount_add' %}">Add a debit account</a>
-            </td>
-            <td>
-                <a class="btn btn-primary" role="button" href="{% url 'creditaccount_add' %}">Add a credit account</a>
-            </td>
-            <td>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="col col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Debit Accounts:
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <theader>
+                <tr>
+                    <th>Account</th>
+                    <th>Balance</th>
+                </tr>
+                </theader>
+                <tbody>
+                    {% if cr %}
+                    <tr class="info">
+                        <td >Customer receivables </td>
+                        <td >{{ cr_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in cr %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                     {% if cr %}
+                    <tr class="info">
+                        <td >Vendor receivables </td>
+                        <td >{{ vr_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in vr %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    {% if da %}
+                    <tr class="info">
+                        <td >Others</td>
+                        <td >{{ da_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in da %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    <tr class="info">
+                        <td >Subtotal</td>
+                        <td >{{ dr_subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a class="btn btn-primary" role="button" href="{% url 'debitaccount_add' %}">Add a debit account</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Credit accounts:
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <theader>
+                <tr>
+                    <th>Account</th>
+                    <th>Balance</th>
+                </tr>
+                </theader>
+                <tbody>
+                    {% if cp %}
+                    <tr class="info">
+                        <td >Customer payables </td>
+                        <td >{{ cp_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in cp %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    {% if vp %}
+                    <tr class="info">
+                        <td >Vendor payables </td>
+                        <td >{{ vp_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in vp %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    {% if ca %}
+                    <tr class="info">
+                        <td >Others</td>
+                        <td >{{ ca_sum.balance__sum }}</td>
+                    </tr>
+                    {% for acc in ca %}
+                    <tr>
+                        <td> <a href="{% url 'account_edit' acc.pk %}"> {{ acc }} </a> </td>
+                        <td>                                            {{ acc.balance }} </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    <tr class="info">
+                        <td >Subtotal</td>
+                        <td >{{ cr_subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a class="btn btn-primary" role="button" href="{% url 'creditaccount_add' %}">Add a credit account</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

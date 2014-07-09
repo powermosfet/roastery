@@ -1,8 +1,13 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from decimal import Decimal
+from datetime import datetime as dt
 
-from accounting.models import Account, CreditAccount, DebitAccount, Transaction
+from accounting.models import Account, CreditAccount, DebitAccount, Transaction, ExpenseAccount
 from roast.models import Batch
 from roastery.models import SelflinkMixin
+from inventory.models import InventoryAccount
 
 class Customer(models.Model):
     name = models.CharField(max_length=80)
@@ -56,3 +61,19 @@ class Order(models.Model, SelflinkMixin):
 
 class OrderTransaction(Transaction):
     order = models.ForeignKey(Order)
+
+
+@receiver(post_save, sender=Batch)
+def batch_saved(sender, instance=None, **kwargs):
+    inv = InventoryAccount.objects.first()
+    xa = ExpenseAccount.objects.first()
+    t = OrderTransaction.objects.filter(order=instance.order, credit=inv).first()
+    if not t:
+        t = OrderTransaction()
+        t.order = instance.order
+        t.debit = xa
+        t.credit = inv
+        t.timestamp = dt.now()
+    t.amount = instance.bag.price * Decimal( instance.initial_weight / instance.bag.weight )
+    t.save()
+
