@@ -29,8 +29,7 @@
                 <td>{{ ob.target_temp }}</td>
                 <td>{{ ob.target_time|time:"h:m:s" }}</td>
                 <td>{{ ob.final_weight }}</td>
-                <td>{{ ob.state }}
-                </td>
+                <td>{{ ob.get_state_display }} </td>
                 <td>
                 <a class="btn btn-default btn-sm" href="{% url 'batch_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
                 </td>

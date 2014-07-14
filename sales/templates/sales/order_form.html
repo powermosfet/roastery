@@ -51,7 +51,7 @@
                     <tr>
                         <td>{{ b.date|date:"Y-m-d"|default:"Not roasted yet" }}</td>
                         <td>{{ b.initial_weight }}</td>
-                        <td>{{ b.state }}
+                        <td>{{ b.get_state_display }}
                         <a class="btn btn-default btn-sm pull-right" href="{% url 'batch_edit' b.pk %}" ><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
