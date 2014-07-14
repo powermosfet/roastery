@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <theader>
+    <tr>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Variety</th>
+        <th>Quantity</th>
+        <th>Done</th>
+        <th>Edit</th>
+    </tr>
+    </theader>
+    <tbody id="orders">
+        <tr data-template>
+
+            {% verbatim %}
+            <td>  {{ date|date 'YYYY-MM-DD' }}  </td>
+            <td>  {{ customer.name }} </td>
+            <td>  {{ variety.country }} {{ variety.area }} </td>
+            <td>  {{ quantity }} </td>
+            <td>  {{ done }} </td>
+            {% endverbatim %}
+
+            <td><a class="btn btn-default btn-sm pull-right" href=""><span class="glyphicon glyphicon-pencil"></span></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-primary" role="button" href="{% url 'order_add' %}">Add a order</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $( function() {
+        $.get( "{% url 'api_order_all' %}", function( data ) {
+            Tempo.prepare("orders").render(data);
+        });
+    });
+</script>
+{% endblock %}

@@ -9,7 +9,7 @@ def navbar_items():
             ( 'Sales', [
                         ('Customers', reverse('customer_all')),
                         ('Orders', reverse('order_all')),
-                        ('Outstanding orders', reverse('order_outstanding')),
+                        # ('Outstanding orders', reverse('order_outstanding')),
                         ] ),
                 ]
 

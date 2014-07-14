@@ -1,3 +1,9 @@
+from django.shortcuts import render_to_response
+
+def direct(template):
+    def direct_view(r, *args, **kwargs):
+        return render_to_response(template, kwargs)
+    return direct_view
 
 class FormMixin(object):
     def get_context_data(self, *args, **kwargs):
