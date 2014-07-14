@@ -13,7 +13,6 @@ class Batch(models.Model, SelflinkMixin):
     ambient_temp = models.FloatField(blank=True, null=True)
     program = models.CharField(max_length = 30, blank=True)
     target_temp = models.FloatField(blank=True, null=True)
-    target_time = models.TimeField(blank=True, null=True)
     final_weight = models.FloatField(blank=True, null=True)
     order = models.ForeignKey('sales.Order')
     state = models.IntegerField(choices = BATCH_STATES, default = 0)
