@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-striped">
+    <theader>
+    <tr>
+        <th>Timestamp</th>
+        <th>Amount</th>
+        <th>Debit</th>
+        <th>Credit</th>
+    </tr>
+    </theader>
+    <tbody>
+        {% for t in object_list %}
+        <tr>
+            <td>  {{ t.timestamp|date:"Y-M-d h:m:s" }}  </td>
+            <td>  {{ t.amount }} </td>
+            <td>  {{ t.debit }} </td>
+            <td>  {{ t.credit }}
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'transaction_edit' t.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            </td>
+        </tr>
+        {% empty %}
+        No transactions have been created yet.
+        {% endfor %}
+        <tr>
+            <td colspan="4">
+                <a class="btn btn-primary" role="button" href="{% url 'transaction_add' %}">Add a transaction</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -10,6 +10,7 @@ def navbar_items():
     return [
             ( 'Accounting', [
                         ('Accounts', reverse('account_all')),
+                        ('Transactions', reverse('transaction_all')),
                         ] ),
                 ]
 
@@ -54,5 +55,23 @@ class CreditAccountAdd(FormMixin, CreateView):
 
 class AccountEdit(FormMixin, UpdateView):
     model = Account
+    template_name = 'form.html'
+
+class TransactionList(ListView):
+    queryset = Transaction.objects.order_by('timestamp')
+    template_name = 'accounting/transaction_list.html'
+
+class TransactionDelete(FormMixin, DeleteView):
+    model = Transaction  
+    template_name = 'confirm_delete.html'
+    success_url = reverse_lazy('transaction_all')
+
+class TransactionAdd(FormMixin, CreateView):
+    model = Transaction
+    template_name = 'form.html'
+    success_url = reverse_lazy('transaction_all')
+
+class TransactionEdit(FormMixin, UpdateView):
+    model = Transaction
     template_name = 'form.html'
 
