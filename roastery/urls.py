@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^roast/', include('roast.urls')),
     url(r'^inventory/', include('inventory.urls')),
     url(r'^sales/', include('sales.urls')),
+    url(r'^api/', include('api.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
