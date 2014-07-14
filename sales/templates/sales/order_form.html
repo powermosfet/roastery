@@ -19,17 +19,15 @@
                 <tbody>
                 {% for t in ts %}
                     <tr>
-                        <td><a href="{% url 'ordertransaction_edit' t.pk %}" >{{ t.timestamp|date:"Y-m-d" }}</a></td>
+                        <td>{{ t.timestamp|date:"Y-m-d" }}</td>
                         <td>{{ t.amount }}</td>
                         <td>{{ t.credit }}</td>
-                        <td>{{ t.debit }}</td>
+                        <td>{{ t.debit }}
+                        <a class="btn btn-default btn-sm pull-right" href="{% url 'ordertransaction_edit' t.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
                     <tr>
-                        <td> <a class="btn btn-default" href="{% url 'ordertransaction_add' %}?order={{ object.pk }}" >Add a transaction</a> </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="5"> <a class="btn btn-default" href="{% url 'ordertransaction_add' %}?order={{ object.pk }}" >Add a transaction</a> </td>
                     </tr>
                 </tbody>
             </table>
@@ -43,7 +41,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Date</th>   
+                        <th>Roasting date</th>   
                         <th>Weight</th>   
                         <th>State</th>   
                     </tr>
@@ -51,9 +49,10 @@
                 <tbody>
                 {% for b in bs %}
                     <tr>
-                        <td><a href="{% url 'batch_edit' b.pk %}" >{{ b.date|date:"Y-m-d" }}</a></td>
+                        <td>{{ b.date|date:"Y-m-d"|default:"Not roasted yet" }}</td>
                         <td>{{ b.initial_weight }}</td>
-                        <td>{{ b.state }}</td>
+                        <td>{{ b.state }}
+                        <a class="btn btn-default btn-sm pull-right" href="{% url 'batch_edit' b.pk %}" ><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
                     <tr>

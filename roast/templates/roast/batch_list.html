@@ -3,6 +3,7 @@
 {% block content %}
 <table class="table table-striped">
     <theader>
+    <legend>Batches</legend>
       <tr>
           <th>Bag</th>
           <th>Initial weight</th>
@@ -12,54 +13,39 @@
           <th>Target temp</th>
           <th>Target time</th>
           <th>Final weight</th>
-          <th>Batch</th>
           <th>State</th>
+          <th>Edit</th>
       </tr>
     </theader>
     <tbody>
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <th><a href="{% url 'batch_edit' ob.pk %}">{{ ob.bag }}</a></th>
-                <th>{{ ob.initial_weight }}</th>
-                <th>{{ ob.date|date:'Y-M-d' }}</th>
-                <th>{{ ob.ambient_temp }}</th>
-                <th>{{ ob.program }}</th>
-                <th>{{ ob.target_temp }}</th>
-                <th>{{ ob.target_time }}</th>
-                <th>{{ ob.final_weight }}</th>
-                <th>{{ ob.batch }}</th>
-                <th>{{ ob.state }}</th>
+                <td>{{ ob.bag.variety }}</td>
+                <td>{{ ob.initial_weight }}</td>
+                <td>{{ ob.date|date:'Y-M-d' }}</td>
+                <td>{{ ob.ambient_temp }}</td>
+                <td>{{ ob.program }}</td>
+                <td>{{ ob.target_temp }}</td>
+                <td>{{ ob.target_time|time:"h:m:s" }}</td>
+                <td>{{ ob.final_weight }}</td>
+                <td>{{ ob.state }}
+                </td>
+                <td>
+                <a class="btn btn-default btn-sm" href="{% url 'batch_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                </td>
             </tr>
         {% endfor %}
     {% else %}
             <tr>
-                <td>
+                <td colspan="10">
                     <p>No batches have been created yet</p>
                 </td>
             </tr>
     {% endif %}
         <tr>
-            <td>
+            <td colspan="10">
                 <a class="btn btn-primary" role="button" href="{% url 'batch_add' %}">Add a batch</a>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
             </td>
         </tr>
     </tbody>

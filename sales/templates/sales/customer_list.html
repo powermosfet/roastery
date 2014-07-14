@@ -12,8 +12,9 @@
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <td> <a href="{% url 'customer_edit' ob.pk %}"> {{ ob.name    }} </a> </td>
-                <td>                                           {{ ob.email }} </td>
+                <td>  {{ ob.name    }}  </td>
+                <td>                                           {{ ob.email }} 
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'customer_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}
     {% else %}
@@ -24,10 +25,8 @@
             </tr>
     {% endif %}
         <tr>
-            <td>
+            <td colspan="2">
                 <a class="btn btn-primary" role="button" href="{% url 'customer_add' %}">Add a customer</a>
-            </td>
-            <td>
             </td>
         </tr>
     </tbody>

@@ -16,46 +16,25 @@
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <td>
-                    <a href="{% url 'coffeebag_edit' ob.pk %}"> {{ ob.variety }} </a>
-                </td>
-                <td>
-                    {{ ob.vendor }}
-                </td>
-                <td>
-                    {{ ob.order_date }}
-                </td>
-                <td>
-                    {{ ob.weight }}
-                </td>
-                <td>
-                    {{ ob.remaining }}
-                </td>
-                <td>
-                    {{ ob.price }}
-                </td>
+                <td> {{ ob.variety }} </td>
+                <td> {{ ob.vendor }} </td>
+                <td> {{ ob.order_date }} </td>
+                <td> {{ ob.weight }} </td>
+                <td> {{ ob.remaining }} </td>
+                <td> {{ ob.price }} 
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'coffeebag_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}
     {% else %}
             <tr>
-                <td>
+                <td colspan="6">
                     <p>No bags have been created yet</p>
                 </td>
             </tr>
     {% endif %}
         <tr>
-            <td>
+            <td colspan="6">
                 <a class="btn btn-primary" role="button" href="{% url 'coffeebag_add' %}">Add a bag</a>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
             </td>
         </tr>
     </tbody>

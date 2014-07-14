@@ -12,22 +12,21 @@
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <td> <a href="{% url 'vendor_edit' ob.pk %}"> {{ ob.name    }} </a> </td>
-                <td>                                           {{ ob.website }} </td>
+                <td>  {{ ob.name    }}  </td>
+                <td>  {{ ob.website }} 
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'vendor_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}
     {% else %}
             <tr>
-                <td>
+                <td colspan="2">
                     <p>No vendors have been created yet</p>
                 </td>
             </tr>
     {% endif %}
         <tr>
-            <td>
+            <td colspan="2">
                 <a class="btn btn-primary" role="button" href="{% url 'vendor_add' %}">Add a vendor</a>
-            </td>
-            <td>
             </td>
         </tr>
     </tbody>

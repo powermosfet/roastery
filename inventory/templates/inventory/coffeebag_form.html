@@ -19,10 +19,11 @@
                 <tbody>
                 {% for t in ts %}
                     <tr>
-                        <td><a href="{% url 'bagtransaction_edit' t.pk %}" >{{ t.timestamp|date:"Y-m-d" }}</a></td>
+                        <td>{{ t.timestamp|date:"Y-m-d" }}</td>
                         <td>{{ t.amount }}</td>
                         <td>{{ t.credit }}</td>
-                        <td>{{ t.debit }}</td>
+                        <td>{{ t.debit }}
+                        <a class="btn btn-default btn-sm pull-right" href="{% url 'bagtransaction_edit' t.pk %}" ><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

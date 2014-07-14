@@ -14,21 +14,22 @@
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <td> <a href="{% url 'variety_edit' ob.pk %}"> {{ ob.country     }} </a> </td>
-                <td>                                           {{ ob.area        }} </td>
-                <td>                                           {{ ob.crop_year   }} </td>
-                <td>                                           {{ ob.description }} </td>
+                <td> {{ ob.country     }}  </td>
+                <td> {{ ob.area        }} </td>
+                <td> {{ ob.crop_year   }} </td>
+                <td> {{ ob.description }} 
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'variety_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}
     {% else %}
             <tr>
-                <td>
+                <td colspan="4">
                     <p>No varieties have been created yet</p>
                 </td>
             </tr>
     {% endif %}
         <tr>
-            <td>
+            <td colspan="4">
                 <a class="btn btn-primary" role="button" href="{% url 'variety_add' %}">Add a variety</a>
             </td>
         </tr>

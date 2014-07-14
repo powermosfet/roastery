@@ -15,11 +15,12 @@
     {% if object_list %}
         {% for ob in object_list %}
             <tr>
-                <td> <a href="{% url 'order_edit' ob.pk %}"> {{ ob.date|date:'Y-M-d' }} </a> </td>
+                <td>  {{ ob.date|date:'Y-M-d' }}  </td>
                 <td>                                         {{ ob.customer }} </td>
                 <td>                                         {{ ob.variety }} </td>
                 <td>                                         {{ ob.quantity }} </td>
-                <td>                                         {% if ob.done %}Yes{% else %}No{% endif %}</td>
+                <td>                                         {% if ob.done %}Yes{% else %}No{% endif %}
+                <a class="btn btn-default btn-sm pull-right" href="{% url 'order_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}
     {% else %}
