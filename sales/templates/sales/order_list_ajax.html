@@ -8,7 +8,7 @@
         <th>Customer</th>
         <th>Variety</th>
         <th>Quantity</th>
-        <th>Done</th>
+        <th>Status</th>
         <th>Edit</th>
     </tr>
     </theader>
@@ -20,10 +20,10 @@
             <td>  {{ customer.name }} </td>
             <td>  {{ variety.country }} {{ variety.area }} </td>
             <td>  {{ quantity }} </td>
-            <td>  {{ done }} </td>
+            <td>  {{ get_status_display }} </td>
             {% endverbatim %}
 
-            <td><a class="btn btn-default btn-sm pull-right" href=""><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td><a class="btn btn-default btn-sm" href=""><span class="glyphicon glyphicon-pencil"></span></a></td>
         </tr>
     </tbody>
 </table>

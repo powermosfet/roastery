@@ -8,7 +8,7 @@
           <th>Customer</th>
           <th>Variety</th>
           <th>Quantity</th>
-          <th>Done</th>
+          <th>Status</th>
       </tr>
     </theader>
     <tbody>
@@ -19,7 +19,7 @@
                 <td>                                         {{ ob.customer }} </td>
                 <td>                                         {{ ob.variety }} </td>
                 <td>                                         {{ ob.quantity }} </td>
-                <td>                                         {% if ob.done %}Yes{% else %}No{% endif %}
+                <td>                                         {{ ob.get_status_display }}
                 <a class="btn btn-default btn-sm pull-right" href="{% url 'order_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
             </tr>
         {% endfor %}

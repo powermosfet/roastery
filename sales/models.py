@@ -39,12 +39,18 @@ class CustomerReceivable(DebitAccount):
     def __unicode__(self):
         return "{} receivable [{}]".format(self.customer, self.pk)
 
+ORDER_STATUS = (
+        (0, 'Initial',            ),
+        (1, 'In progress',        ),
+        (2, 'Paid and delivered', ),
+        )
+
 class Order(models.Model, SelflinkMixin):
     variety = models.ForeignKey('inventory.Variety')
     quantity = models.IntegerField()
     customer = models.ForeignKey(Customer)
     date = models.DateField()
-    done = models.BooleanField(default = False)
+    status = models.IntegerField(choices = ORDER_STATUS)
 
     def delivered_quantity(self):
         return 0

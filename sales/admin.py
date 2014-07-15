@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
         'quantity',
         'customer',
         'date',
-        'done',
+        'status',
     ]
 
 admin.site.register(models.Order, OrderAdmin)

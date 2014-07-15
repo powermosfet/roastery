@@ -5,7 +5,7 @@ from inventory.models import CoffeeBag
 
 class OrderHandler(BaseHandler):
     model = Order
-    fields = [ 'id', 'customer', 'quantity', 'done', 'date', 'variety' ]
+    fields = [ 'id', 'customer', 'quantity', 'get_status_display', 'date', 'variety' ]
 
 class CustomerHandler(BaseHandler):
     model = Customer
