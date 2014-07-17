@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 <table class="table table-striped">
     <theader>
@@ -32,11 +34,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    $( function() {
-        $.get( "{% url 'api_order_all' %}", function( data ) {
-            Tempo.prepare("orders").render(data);
-        });
-    });
-</script>
+<script src="{% static 'sales\js\order_list.js' %}"> </script>
 {% endblock %}

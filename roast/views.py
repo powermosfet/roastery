@@ -41,7 +41,7 @@ class BatchAdd(FormMixin, CreateView):
 
 class BatchEdit(FormMixin, UpdateView):
     model = Batch
-    template_name = 'form.html'
+    template_name = 'roast/batch_form.html'
     
     def get_success_url(self):
         return reverse('order_edit', kwargs={'pk': self.object.order.pk})

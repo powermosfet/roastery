@@ -55,11 +55,11 @@ class Order(models.Model, SelflinkMixin):
     def delivered_quantity(self):
         return 0
 
-    def determine_done(self):
-        self.done = self.delivered_quantity() >= self.quantity
+    # def determine_done(self):
+    #     self.done = self.delivered_quantity() >= self.quantity
 
     def __unicode__(self):
-        return u'{} {}/{} pcs {} for {}'.format(u'\u2611' if self.done else u'\u2610', \
+        return u'{} {}/{} pcs {} for {}'.format(u'\u2611' if self.status < 2 else u'\u2610', \
                                                 self.delivered_quantity(), \
                                                 self.quantity, \
                                                 self.variety, \
