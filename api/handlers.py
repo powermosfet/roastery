@@ -2,6 +2,7 @@ from piston.handler import AnonymousBaseHandler, BaseHandler
 
 from sales.models import Order, Customer
 from inventory.models import CoffeeBag
+from roast.models import RoastPoint, Event
 
 class OrderHandler(BaseHandler):
     model = Order
@@ -12,3 +13,14 @@ class CustomerHandler(BaseHandler):
 
 class CoffeeBagHandler(BaseHandler):
     model = CoffeeBag
+
+class EventHandler(BaseHandler):
+    model = Event
+
+class RoastPointHandler(BaseHandler):
+    model = RoastPoint
+    fields = ( 'id', 'temp', 'time', ( 'batch', ( 'id', ) )  )
+
+    def create(self, r, *args, **kwargs):
+        import pdb;pdb.set_trace()
+        return super(RoastPointHandler, self).create(r, *args, **kwargs)
