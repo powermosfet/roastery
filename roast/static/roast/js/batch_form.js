@@ -1,36 +1,41 @@
 var startTime = null;
 var roastPoints = [];
 var rpRenderer = null;
-var apiUrl = "/api/batch/" + pk + "/roastpoints/";
+var o_batch = null;
 
-var addRoastpoints = function(d) {
-    for(var i = 0; i < d.length; i++) {
-        addSinglePoint(d[i]);
+var url = function(m, pk = null) {
+    var r = "/api/v1/" + m + "/";
+    if(pk) {
+        r += "" + pk + "/";
     }
+    return r;
 }
 
 var addSinglePoint = function(p) {
-    roastPoints.push(p);
     if(!rpRenderer) {
-        rpRenderer = Tempo.prepare('roastpoints');
+        rpRenderer = Tempo.prepare("roastpoints");
     }
-    rpRenderer.render(roastPoints);
 
-    if(!p.id) {
-        $.post(apiUrl, p, null );
-    }
+    roastPoints.push(p);
+    rpRenderer.render(roastPoints);
 }
 
 $( function() {
 
     $('#inp-temp').val($('#id_ambient_temp').val())
 
-    $.get("/api/roastevents/", function(d) {
-        Tempo.prepare("events").render(d);
+    $.get(url("batch", pk), function(d) {
+        o_batch = d;
+
+        for(var i = 0; i < d.roastpoint_set.length; i++) {
+            $.get(d.roastpoint_set[i], function(rp) {
+                addSinglePoint(rp);
+            });
+        }
     });
 
-    $.get(apiUrl, function(d) {
-        addRoastpoints(d);
+    $.get(url("event"), function(d) {
+        Tempo.prepare("events").render(d);
     });
 
     var btn = $('#btn-start');
@@ -52,10 +57,18 @@ $( function() {
     });
 
     $('#btn-add').click(function() {
-        addSinglePoint( {
+        var p = {
             'time': $('#timer-display').html(),
             'temp': $('#inp-temp').val(),
-            'batch': { 'id': pk }
+            'batch': o_batch.resource_uri
+        };
+        addSinglePoint(p);
+        $.ajax({
+            url: url('roastpoint'),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(p)
         });
     });
 

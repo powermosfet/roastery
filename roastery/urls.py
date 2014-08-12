@@ -1,8 +1,14 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+
+from tastypie.api import Api
+from roast.api import *
+
+v1_api = Api(api_name = 'v1')
+v1_api.register(BatchResource())
+v1_api.register(RoastpointResource())
+v1_api.register(EventResource())
 
 urlpatterns = patterns('',
     # Examples:
@@ -12,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^roast/', include('roast.urls')),
     url(r'^inventory/', include('inventory.urls')),
     url(r'^sales/', include('sales.urls')),
-    url(r'^api/', include('api.urls')),
+    url(r'^api/', include(v1_api.urls)),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
