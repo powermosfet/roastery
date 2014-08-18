@@ -4,11 +4,14 @@ admin.autodiscover()
 
 from tastypie.api import Api
 from roast.api import *
+from inventory.api import *
 
 v1_api = Api(api_name = 'v1')
 v1_api.register(BatchResource())
 v1_api.register(RoastpointResource())
 v1_api.register(EventResource())
+
+v1_api.register(VarietyResource())
 
 urlpatterns = patterns('',
     # Examples:

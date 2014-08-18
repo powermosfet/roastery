@@ -2,37 +2,40 @@
 
 {% block content %}
 <table class="table table-striped">
-    <theader>
-      <tr>
-          <th>Country    </th>
-          <th>Area       </th>
-          <th>Crop year  </th>
-          <th>Description</th>
-      </tr>
-    </theader>
-    <tbody>
-    {% if object_list %}
-        {% for ob in object_list %}
-            <tr>
-                <td> {{ ob.country     }}  </td>
-                <td> {{ ob.area        }} </td>
-                <td> {{ ob.crop_year   }} </td>
-                <td> {{ ob.description }} 
-                <a class="btn btn-default btn-sm pull-right" href="{% url 'variety_edit' ob.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-            </tr>
-        {% endfor %}
-    {% else %}
-            <tr>
-                <td colspan="4">
-                    <p>No varieties have been created yet</p>
-                </td>
-            </tr>
-    {% endif %}
-        <tr>
-            <td colspan="4">
-                <a class="btn btn-primary" role="button" href="{% url 'variety_add' %}">Add a variety</a>
-            </td>
+    <thead>
+    <tr>
+        <th>Country    </th>
+        <th>Area       </th>
+        <th>Crop year  </th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody id="varieties">
+        {% verbatim %}
+        <tr class="overlay-row" data-template data-url="/inventory/varieties/{{ id }}" >
+            <td>{{ country }}</td>
+            <td>{{ area }}</td>
+            <td>{{ crop_year }}</td>
+            <td>{{ description }}</td>
         </tr>
+        {% endverbatim %}
     </tbody>
 </table>
+
+<div id="div-overlay" >
+    <a id="btn-edit" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil" /></a>
+    <a id="btn-delete" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash" /></a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function() {
+    $.get(url('variety'), function(d) {
+        Tempo.prepare('varieties').render(d.objects);
+        setupRowOverlay();
+    });
+
+});
+</script>
 {% endblock %}

@@ -79,7 +79,7 @@ class OrderTransactionAdd(FormMixin, CreateView):
     template_name = 'form.html'
     
     def get_success_url(self):
-        return reverse('ordertransaction_edit', self.object.pk)
+        return reverse('order_edit', self.object.order.pk)
 
     def get_form(self, *args, **kwargs):
         f = super(OrderTransactionAdd, self).get_form(*args, **kwargs)

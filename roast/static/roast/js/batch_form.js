@@ -3,14 +3,6 @@ var roastPoints = [];
 var rpRenderer = null;
 var o_batch = null;
 
-var url = function(m, pk = null) {
-    var r = "/api/v1/" + m + "/";
-    if(pk) {
-        r += "" + pk + "/";
-    }
-    return r;
-}
-
 var addSinglePoint = function(p) {
     if(!rpRenderer) {
         rpRenderer = Tempo.prepare("roastpoints");
@@ -35,7 +27,7 @@ $( function() {
     });
 
     $.get(url("event"), function(d) {
-        Tempo.prepare("events").render(d);
+        Tempo.prepare("events").render(d.objects);
     });
 
     var btn = $('#btn-start');

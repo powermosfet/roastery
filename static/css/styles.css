@@ -4,3 +4,10 @@ table .btn-default {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
+#div-overlay {
+    padding: 3px;
+    display: none;
+    position:absolute;
+    background: rgba(0, 0, 0, 0.3);
+}
