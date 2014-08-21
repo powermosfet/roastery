@@ -8,23 +8,27 @@ var url = function(m, pk = null) {
 }
 
 var setupRowOverlay = function() {
+
     $('.overlay-row').mouseover(function() {
         var $divOverlay = $('#div-overlay');
         var $editButton = $('#btn-edit');
         var $deleteButton = $('#btn-delete');
+        var url = $(this).data("url");
 
-        $editButton.attr("href", $(this).data('url'));
+        $editButton.attr("href", url);
 
         $deleteButton.popover({
             placement: 'right',
             html: true,
-            content: $('#div-delete-popover').html()
+            content: $('#div-delete-popover')
         });
-        $('#btn-delete-popover').click(function() {
-            $.ajax({
-                url = $(this).data('url'),
-                type: 'DELETE',
-            });
+        $(".btn-delete-popover").data("url", url);
+        $(".btn-delete-popover").click( function() {
+            alert("i'm deleting this one now: " + $(this).data("url"));
+            // $.ajax({
+            //     url: $(this).data('url'),
+            //     type: 'DELETE'
+            // });
         });
 
         var bottomWidth = $(this).css('width');
