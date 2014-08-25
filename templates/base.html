@@ -28,10 +28,10 @@
     <script src="{% static 'js/main.js' %}"></script>
     {% block scripts %}{% endblock %}
 
-    <div class="hide" > <div id="div-delete-popover" > <button type="button" class="btn btn-sm btn-danger btn-delete-popover">YES, DELETE</button> </div></div>
     <div id="div-overlay" >
       <a id="btn-edit" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil" /></a>
       <a id="btn-delete" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash" /></a>
+      <button id="btn-delete-confirm" type="button"  class="btn btn-sm btn-danger">YES, DELETE</button> 
     </div>
   </body>
 </html>

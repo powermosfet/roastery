@@ -29,9 +29,8 @@
 $(function() {
     $.get(url('variety'), function(d) {
         Tempo.prepare('varieties').render(d.objects);
-        setupRowOverlay();
+        updateOverlay();
     });
-
 });
 </script>
 {% endblock %}
